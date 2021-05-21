@@ -1,0 +1,84 @@
+@page
+@model DnDIniativeTracker.Pages.GamePage
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Spill";
+}
+<div class="row align-items-start">
+    <div class="col">
+      <form method="POST" action="">
+        <input type="submit" value="Legg til" class="btn btn-success btn-lg" />
+          <div class="mb-3">
+              <label asp-for="AddCreature.Number" class="form-label">Antall:</label>
+              <input asp-for="AddCreature.Number" class="form-control" min="1" />
+          </div>
+          <ul class="list-group" style="overflow: scroll; max-">
+              @foreach (var creature in Model.Creatures)
+              {
+                  <li class="list-group-item">
+                  <input asp-for="AddCreature.CreatureId" class="form-check-input me-1" type="radio" value="@creature.Id" aria-label="...">
+                      @creature.Name
+                  </li>   
+              }        
+          </ul>
+      </form>
+    </div>
+    <div class="col">
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Initiative</th>
+                <th scope="col">AC</th>
+                <th scope="col">HP</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var creature in Model.CreaturesInGame)
+                {
+                    <tr>
+                    <th class="creature_in_game">@creature.Id</th>
+                    <td>@creature.TempName</td>
+                    <td><input type="number" class="creature_in_game" onchange="updateCreatureInGame(this);" value="@creature.Initiative"/></td>
+                    <td>@creature.Creature.AC</td>
+                    <td><input type="number" class="creature_in_game" onchange="updateCreatureInGame(this);" value="@creature.HP"/></td>
+                    </tr>
+                }
+                
+
+            </tbody>
+            </table>
+    </div>
+  </div>
+<form id="creatureInGameForm" hidden>
+    <input asp-for="CreatureInGameUpdateDto.Id" hidden/>
+    <input asp-for="CreatureInGameUpdateDto.HP" hidden/>
+    <input asp-for="CreatureInGameUpdateDto.Initiative" hidden/>
+</form>
+  <script>
+    const updateCreatureInGame = async function(element){
+    const creatureInGame = element.parentNode.parentNode.getElementsByClassName("creature_in_game");
+    $("#@Html.IdFor(m => m.CreatureInGameUpdateDto.Id)").val(creatureInGame[0].innerHTML);
+    $("#@Html.IdFor(m => m.CreatureInGameUpdateDto.Initiative)").val(creatureInGame[1].value);
+    $("#@Html.IdFor(m => m.CreatureInGameUpdateDto.HP)").val(creatureInGame[2].value);
+    const formData = new FormData(document.getElementById("creatureInGameForm"));
+    try {
+            const response = await fetch("/Api/CreatureInGame/Update", {
+            method: 'POST',
+            body: formData
+            })
+            .then(response => {
+                if(response.ok){
+                    console.log(response);
+                    location.reload();
+                }                    
+            });
+        } catch (error) {
+            console.log(error)
+        }
+        return false;
+}
+    
+  </script>

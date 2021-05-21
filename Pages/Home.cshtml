@@ -1,0 +1,13 @@
+@page
+@model DnDIniativeTracker.Pages.HomePage
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Home";
+}
+<ul style="list-style: none;">
+    @foreach (var game in Model.Games)
+    {
+        <li><a asp-page="/Game" asp-route-game="@game.Name" class="btn btn-primary" target="_blank">@game.Name</a></li>
+    }
+</ul>
