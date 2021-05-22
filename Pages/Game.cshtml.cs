@@ -24,44 +24,31 @@ namespace DnDIniativeTracker.Pages
 
         public IActionResult OnGet(string game)
         {
-            if(game != null)
-            {
-                GameName = game;
-            }
-            Game = _gameService.GetGameByName(GameName);
+            Game = _gameService.GetGameByName(game);
             CreaturesInGame = (List<CreatureInGame>)_creatureInGameService.GetCreaturesInGameByGameId(Game.Id);
             return this.Page();
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(string game)
         {
-            Game = _gameService.GetGameByName(GameName);
-            CreaturesInGame = (List<CreatureInGame>)_creatureInGameService.GetCreaturesInGameByGameId(Game.Id);
+            Game = _gameService.GetGameByName(game);
             if(ModelState.IsValid)
             {
                 _gameService.AddCreaturesToGame(AddCreature ,Game);
             }
+            CreaturesInGame = (List<CreatureInGame>)_creatureInGameService.GetCreaturesInGameByGameId(Game.Id);
             return this.Page();
         }
 
-        public IActionResult OnPostCreatureInGameUpdate()
-        {
-            _creatureInGameService.UpdateCreatureInGame(CreatureInGameUpdateDto);
-            Game = _gameService.GetGameByName(GameName);
-            return this.Page();
-        }
+
 
         public List<Creature> Creatures { get; set; }
         public List<CreatureInGame> CreaturesInGame { get; set; }
         public Game Game { get; set; }
-
-        [TempData]
-        public string GameName { get; set; }
        
         [BindProperty]
         public AddCreature AddCreature { get; set; }
 
-        [BindProperty]
         public CreatureInGameUpdateDto CreatureInGameUpdateDto { get; set; }
 
     }

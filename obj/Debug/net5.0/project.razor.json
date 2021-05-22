@@ -15619,6 +15619,11 @@
   "RootNamespace": "DnDIniativeTracker",
   "Documents": [
     {
+      "FilePath": "c:\\wamp64\\www\\DnDIniativeTracker\\Shared\\_Success.cshtml",
+      "TargetPath": "Shared\\_Success.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\wamp64\\www\\DnDIniativeTracker\\Pages\\Home.cshtml",
       "TargetPath": "Pages\\Home.cshtml",
       "FileKind": "mvc"
@@ -15631,6 +15636,11 @@
     {
       "FilePath": "c:\\wamp64\\www\\DnDIniativeTracker\\Pages\\Game.cshtml",
       "TargetPath": "Pages\\Game.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\wamp64\\www\\DnDIniativeTracker\\Pages\\CreateCreature.cshtml",
+      "TargetPath": "Pages\\CreateCreature.cshtml",
       "FileKind": "mvc"
     }
   ],

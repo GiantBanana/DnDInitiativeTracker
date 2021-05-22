@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using DnDIniativeTracker.Dtos;
 using DnDIniativeTracker.Models;
 
 namespace DnDIniativeTracker.Services
 {
     public interface ICreatureService
     {
-        void CreateCreature(Creature creatureModel);
+        void CreateCreature(CreatureCreateDto creatureCreateDto);
         void UpdateCreature(Creature creatureModel);
         Creature GetCreatureByName(string name);
         Creature GetCreatureById(int id);

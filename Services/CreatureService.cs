@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using AutoMapper;
 using DnDIniativeTracker.Data;
+using DnDIniativeTracker.Dtos;
 using DnDIniativeTracker.Models;
 
 namespace DnDIniativeTracker.Services
@@ -7,14 +9,17 @@ namespace DnDIniativeTracker.Services
     public class CreatureService : ICreatureService
     {
         private readonly ICreatureRepository _creatureRepository;
+        private readonly IMapper _mappper;
 
-        public CreatureService(ICreatureRepository creatureRepository)
+        public CreatureService(ICreatureRepository creatureRepository, IMapper mappper)
         {
             _creatureRepository = creatureRepository;
+            _mappper = mappper;
         }
 
-        public void CreateCreature(Creature creatureModel)
+        public void CreateCreature(CreatureCreateDto creatureCreateDto)
         {
+            var creatureModel = _mappper.Map<Creature>(creatureCreateDto);
             _creatureRepository.CreateCreature(creatureModel);
             _creatureRepository.SaveChanges();
         }

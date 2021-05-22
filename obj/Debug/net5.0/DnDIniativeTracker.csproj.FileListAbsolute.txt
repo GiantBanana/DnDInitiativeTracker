@@ -68,3 +68,5 @@ C:\wamp64\www\DnDIniativeTracker\bin\Debug\net5.0\AutoMapper.dll
 C:\wamp64\www\DnDIniativeTracker\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\wamp64\www\DnDIniativeTracker\obj\Debug\net5.0\Razor\Pages\Game.cshtml.g.cs
 C:\wamp64\www\DnDIniativeTracker\obj\Debug\net5.0\Razor\Pages\Home.cshtml.g.cs
+C:\wamp64\www\DnDIniativeTracker\obj\Debug\net5.0\Razor\Pages\CreateCreature.cshtml.g.cs
+C:\wamp64\www\DnDIniativeTracker\obj\Debug\net5.0\Razor\Shared\_Success.cshtml.g.cs

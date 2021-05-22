@@ -1,14 +1,16 @@
 @page
+@using DnDIniativeTracker.Models
 @model DnDIniativeTracker.Pages.GamePage
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = "~/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Spill";
+    ViewData["Title"] = "Game";
+    ViewData["wide"] = true;
 }
 <div class="row align-items-start">
     <div class="col">
       <form method="POST" action="">
-        <input type="submit" value="Legg til" class="btn btn-success btn-lg" />
+        <input type="submit" value="Add creature to game" class="btn btn-success btn-lg" />
           <div class="mb-3">
               <label asp-for="AddCreature.Number" class="form-label">Antall:</label>
               <input asp-for="AddCreature.Number" class="form-control" min="1" />
@@ -25,12 +27,12 @@
       </form>
     </div>
     <div class="col">
-        <table class="table">
+        <table class="table" id="creatureInGameTable">
             <thead>
                 <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Initiative</th>
+                <th scope="col" onclick="sortTable();">Initiative</th>
                 <th scope="col">AC</th>
                 <th scope="col">HP</th>
                 </tr>
@@ -38,7 +40,20 @@
             <tbody>
                 @foreach (var creature in Model.CreaturesInGame)
                 {
-                    <tr>
+                    
+                    
+                    var tableRowClass = "table-primary";
+                    if(creature.Creature.Role == Creature.Roles.Monster)
+                    {
+                        tableRowClass = "table-danger";
+                    }
+                    else if(creature.Creature.Role == Creature.Roles.Player)
+                    {
+                        tableRowClass = "table-success";
+                    }
+                    
+                    
+                    <tr class="@tableRowClass">
                     <th class="creature_in_game">@creature.Id</th>
                     <td>@creature.TempName</td>
                     <td><input type="number" class="creature_in_game" onchange="updateCreatureInGame(this);" value="@creature.Initiative"/></td>
@@ -59,26 +74,61 @@
 </form>
   <script>
     const updateCreatureInGame = async function(element){
-    const creatureInGame = element.parentNode.parentNode.getElementsByClassName("creature_in_game");
-    $("#@Html.IdFor(m => m.CreatureInGameUpdateDto.Id)").val(creatureInGame[0].innerHTML);
-    $("#@Html.IdFor(m => m.CreatureInGameUpdateDto.Initiative)").val(creatureInGame[1].value);
-    $("#@Html.IdFor(m => m.CreatureInGameUpdateDto.HP)").val(creatureInGame[2].value);
-    const formData = new FormData(document.getElementById("creatureInGameForm"));
-    try {
-            const response = await fetch("/Api/CreatureInGame/Update", {
-            method: 'POST',
-            body: formData
-            })
-            .then(response => {
-                if(response.ok){
-                    console.log(response);
-                    location.reload();
-                }                    
-            });
-        } catch (error) {
-            console.log(error)
+        const creatureInGame = element.parentNode.parentNode.getElementsByClassName("creature_in_game");
+        $("#@Html.IdFor(m => m.CreatureInGameUpdateDto.Id)").val(creatureInGame[0].innerHTML);
+        $("#@Html.IdFor(m => m.CreatureInGameUpdateDto.Initiative)").val(creatureInGame[1].value);
+        $("#@Html.IdFor(m => m.CreatureInGameUpdateDto.HP)").val(creatureInGame[2].value);
+        const formData = new FormData(document.getElementById("creatureInGameForm"));
+        try {
+                const response = await fetch("/Api/CreatureInGame/Update", {
+                method: 'POST',
+                body: formData
+                })
+                .then(response => {
+                    if(response.ok){
+                        console.log(response);
+                        sortTable();
+                    }                    
+                });
+            } catch (error) {
+                console.log(error)
+            }
+            return false;
+    }
+
+    const sortTable = function(n) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("creatureInGameTable");
+        switching = true;
+        /*Make a loop that will continue until
+        no switching has been done:*/
+        while (switching) {
+            //start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /*Loop through all table rows (except the
+            first, which contains table headers):*/
+            for (i = 1; i < (rows.length - 1); i++) {
+            //start by saying there should be no switching:
+            shouldSwitch = false;
+            /*Get the two elements you want to compare,
+            one from current row and one from the next:*/
+            x = rows[i].getElementsByTagName("INPUT")[0];
+            y = rows[i + 1].getElementsByTagName("INPUT")[0];
+            //check if the two rows should switch place:
+            if (Number(x.value) < Number(y.value)) {
+                //if so, mark as a switch and break the loop:
+                shouldSwitch = true;
+                break;
+            }
+            }
+            if (shouldSwitch) {
+            /*If a switch has been marked, make the switch
+            and mark that a switch has been done:*/
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            }
         }
-        return false;
-}
+        }
     
   </script>

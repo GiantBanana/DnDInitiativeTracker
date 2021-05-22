@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using DnDIniativeTracker.Dtos;
 using DnDIniativeTracker.Services;
 
-namespace DeskSimAPI.Controllers
+namespace DnDIniativeTracker.Controllers
 {
 
     [Route("Api/CreatureInGame")]
