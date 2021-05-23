@@ -37,7 +37,7 @@ namespace DnDIniativeTracker.Pages
                 _gameService.AddCreaturesToGame(AddCreature ,Game);
             }
             CreaturesInGame = (List<CreatureInGame>)_creatureInGameService.GetCreaturesInGameByGameId(Game.Id);
-            return this.Page();
+            return this.RedirectToPage("/Game", new { game = game});
         }
 
 

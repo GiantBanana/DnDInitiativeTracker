@@ -14,6 +14,13 @@ namespace DnDIniativeTracker.Services
             _creatureInGameRepository = creatureInGameRepository;
         }
 
+        public void DeleteCreatureInGameById(int id)
+        {
+            var creatureInGameModel = _creatureInGameRepository.GetCreatureInGameById(id);
+            _creatureInGameRepository.DeleteCreatureInGame(creatureInGameModel);
+            _creatureInGameRepository.SaveChanges();
+        }
+
         public CreatureInGame GetCreatureInGameById(int id)
         {
             return _creatureInGameRepository.GetCreatureInGameById(id);

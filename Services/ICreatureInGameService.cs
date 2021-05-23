@@ -10,5 +10,6 @@ namespace DnDIniativeTracker.Services
         CreatureInGame GetCreatureInGameById(int id);
         IEnumerable<CreatureInGame> GetCreaturesInGame();
         IEnumerable<CreatureInGame> GetCreaturesInGameByGameId(int id);
+        void DeleteCreatureInGameById(int id);
     }
 }

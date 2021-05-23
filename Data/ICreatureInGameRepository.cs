@@ -6,6 +6,7 @@ namespace DnDIniativeTracker.Data
     public interface ICreatureInGameRepository
     {
         void UpdateCreatureInGame(CreatureInGame creatureInGameModel);
+        void DeleteCreatureInGame(CreatureInGame creatureInGameModel);
         bool SaveChanges();
         CreatureInGame GetCreatureInGameById(int id);
         IEnumerable<CreatureInGame> GetCreaturesInGame();

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DnDIniativeTracker.Dtos;
 using DnDIniativeTracker.KeylessModels;
 using DnDIniativeTracker.Models;
 
@@ -12,6 +13,6 @@ namespace DnDIniativeTracker.Services
         Game GetGameByName(string name);
         Game GetGameById(int id);
         IEnumerable<Game> GetGames();
-
+        void CreateGame(GameCreateDto gameCreateDto);
     }
 }

@@ -6,10 +6,25 @@
     ViewData["Title"] = "Home";
     ViewData["wide"] = false;
 }
-<h1>Game list</h1>
-<ul style="list-style: none;">
-    @foreach (var game in Model.Games)
-    {
-        <li><a asp-page="/Game" asp-route-game="@game.Name" class="btn btn-primary" target="_blank">Open @game.Name ></a></li>
-    }
-</ul>
+<div class="row align-items-start">
+    <div class="col">
+        @await Html.PartialAsync("~/Shared/_Success.cshtml")
+        <form action="" method="POST">
+            <div class="mb-3">
+                <label asp-for="GameCreateDto.Name" class="form-label">Name:</label>
+                <input asp-for="GameCreateDto.Name" class="form-control"  />
+                <span asp-validation-for="GameCreateDto.Name" class="text-danger"></span>
+            </div>
+            <input type="submit" class="btn btn-success" value="Create new game" />
+        </form>
+    </div>
+    <div class="col">
+        <h1>Game list</h1>
+        <ul style="list-style: none;">
+            @foreach (var game in Model.Games)
+            {
+                <li><a asp-page="/Game" asp-route-game="@game.Name" class="btn btn-primary" target="_blank">Open @game.Name ></a></li>
+            }
+        </ul>
+    </div>
+</div>

@@ -15,15 +15,33 @@ namespace DnDIniativeTracker.Pages
         public HomePage(IGameService gameService)
         {
             _gameService = gameService;
+            Games = (List<Game>) _gameService.GetGames();
         }
 
-        public IActionResult OnGet(string game)
+        public IActionResult OnGet()
         {
+            return this.Page();
+        }
+
+        public IActionResult OnPost()
+        {
+            if(!ModelState.IsValid)
+            {
+                return this.Page();
+            }
+            _gameService.CreateGame(GameCreateDto);
+            if(_gameService.GetGameByName(GameCreateDto.Name) != null)
+            {
+                ViewData["Success"] = "Game created.";
+            }
             Games = (List<Game>) _gameService.GetGames();
             return this.Page();
         }
 
         public List<Game> Games { get; set; }
+
+        [BindProperty]
+        public GameCreateDto GameCreateDto { get; set; }
 
     }
 }

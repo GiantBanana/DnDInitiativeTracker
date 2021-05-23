@@ -15,15 +15,18 @@
               <label asp-for="AddCreature.Number" class="form-label">Antall:</label>
               <input asp-for="AddCreature.Number" class="form-control" min="1" />
           </div>
-          <ul class="list-group" style="overflow: scroll; max-">
-              @foreach (var creature in Model.Creatures)
-              {
-                  <li class="list-group-item">
-                  <input asp-for="AddCreature.CreatureId" class="form-check-input me-1" type="radio" value="@creature.Id" aria-label="...">
-                      @creature.Name
-                  </li>   
-              }        
-          </ul>
+          <div class="mb-3">
+            <label asp-for="AddCreature.CreatureId" class="form-label">Creatures:</label>
+            <input asp-for="AddCreature.CreatureId" class="form-control" list="creatures" type="text"/>
+            <datalist id="creatures">
+                @foreach (var creature in Model.Creatures)
+                {
+                    <option value="@creature.Id">
+                        @creature.Name
+                    </option>   
+                }        
+            </datalist>
+          </div>
       </form>
     </div>
     <div class="col">
@@ -35,36 +38,47 @@
                 <th scope="col" onclick="sortTable();">Initiative</th>
                 <th scope="col">AC</th>
                 <th scope="col">HP</th>
+                <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var creature in Model.CreaturesInGame)
+                @for(var i = 0; i < Model.CreaturesInGame.Count; i++)
                 {
                     
                     
                     var tableRowClass = "table-primary";
-                    if(creature.Creature.Role == Creature.Roles.Monster)
+                    var textDecoration = "";
+                    if(Model.CreaturesInGame[i].Creature.Role == Creature.Roles.Monster)
                     {
                         tableRowClass = "table-danger";
                     }
-                    else if(creature.Creature.Role == Creature.Roles.Player)
+                    else if(Model.CreaturesInGame[i].Creature.Role == Creature.Roles.Player)
                     {
                         tableRowClass = "table-success";
                     }
                     
+                    if(Model.CreaturesInGame[i].HP <= 0)
+                    {
+                        textDecoration = "disabled_row";
+                    }
                     
-                    <tr class="@tableRowClass">
-                    <th class="creature_in_game">@creature.Id</th>
-                    <td>@creature.TempName</td>
-                    <td><input type="number" class="creature_in_game" onchange="updateCreatureInGame(this);" value="@creature.Initiative"/></td>
-                    <td>@creature.Creature.AC</td>
-                    <td><input type="number" class="creature_in_game" onchange="updateCreatureInGame(this);" value="@creature.HP"/></td>
+                    
+                    <tr class="@tableRowClass @textDecoration">
+                    <th class="creature_in_game">@Model.CreaturesInGame[i].Id</th>
+                    <td><a onclick="loadFrame(this);">@Model.CreaturesInGame[i].TempName</a></td>
+                    <td><input type="number" class="creature_in_game" onchange="updateCreatureInGame(this);" value="@Model.CreaturesInGame[i].Initiative"/></td>
+                    <td>@Model.CreaturesInGame[i].Creature.AC</td>
+                    <td><input type="number" class="creature_in_game" onchange="updateCreatureInGame(this);" value="@Model.CreaturesInGame[i].HP"/></td>
+                    <td><button type="button" onclick="deleteRow(this, @Model.CreaturesInGame[i].Id);" class="btn btn-danger">Delete</button></td>
                     </tr>
                 }
                 
 
             </tbody>
             </table>
+    </div>
+    <div class="col">
+        <iframe src="" id="roll20Frame" height="100%" width="100%" onload="onFrameLoad(this);"></iframe>
     </div>
   </div>
 <form id="creatureInGameForm" hidden>
@@ -78,6 +92,9 @@
         $("#@Html.IdFor(m => m.CreatureInGameUpdateDto.Id)").val(creatureInGame[0].innerHTML);
         $("#@Html.IdFor(m => m.CreatureInGameUpdateDto.Initiative)").val(creatureInGame[1].value);
         $("#@Html.IdFor(m => m.CreatureInGameUpdateDto.HP)").val(creatureInGame[2].value);
+        if(Number(creatureInGame[2].value) <= 0){
+            element.parentNode.parentNode.classList.add("disabled_row");
+        }
         const formData = new FormData(document.getElementById("creatureInGameForm"));
         try {
                 const response = await fetch("/Api/CreatureInGame/Update", {
@@ -129,6 +146,42 @@
             switching = true;
             }
         }
+    }
+
+    const deleteRow = async function(element, creatureInGameId){
+        const row = element.parentNode.parentNode;
+        document.getElementById("creatureInGameTable").deleteRow(row.rowIndex);
+        try {
+                const response = await fetch("/Api/CreatureInGame/Delete/"+creatureInGameId, {
+                method: 'GET',
+                })
+                .then(response => {
+                    if(response.ok){
+                        console.log(response);
+                    }                    
+                });
+            } catch (error) {
+                console.log(error)
+            }
+            return false;
+    }
+
+    const loadFrame = function(element){
+        var creatureName = element.innerHTML.split("-")[0].trim();
+        var url = `https://roll20.net/compendium/dnd5e/${creatureName}#attributes`;
+        console.log(url);
+        document.getElementById("roll20Frame").src = url;
+        return false;
+    }
+
+    const onFrameLoad = function(element){
+        console.log(element.innerText);
+        if($(element).length){
+            return;
         }
+        var url = element.src.replace("dnd5e","pathfinder");
+        console.log(url);
+        element.src = url;
+    }
     
   </script>

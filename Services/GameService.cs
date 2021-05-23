@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using AutoMapper;
 using DnDIniativeTracker.Data;
+using DnDIniativeTracker.Dtos;
 using DnDIniativeTracker.KeylessModels;
 using DnDIniativeTracker.Models;
 
@@ -9,11 +11,13 @@ namespace DnDIniativeTracker.Services
     {
         private readonly IGameRepository _gameRepository;
         private readonly ICreatureService _creatureService;
+        private readonly IMapper _mapper;
 
-        public GameService(IGameRepository gameRepository, ICreatureService creatureService)
+        public GameService(IGameRepository gameRepository, ICreatureService creatureService, IMapper mapper)
         {
             _gameRepository = gameRepository;
             _creatureService = creatureService;
+            _mapper = mapper;
         }
 
         public void AddCreaturesToGame(AddCreature addCreature, Game game)
@@ -32,6 +36,13 @@ namespace DnDIniativeTracker.Services
 
         public void CreateGame(Game gameModel)
         {
+            _gameRepository.CreateGame(gameModel);
+            _gameRepository.SaveChanges();
+        }
+
+        public void CreateGame(GameCreateDto gameCreateDto)
+        {
+            var gameModel = _mapper.Map<Game>(gameCreateDto);
             _gameRepository.CreateGame(gameModel);
             _gameRepository.SaveChanges();
         }

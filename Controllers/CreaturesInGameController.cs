@@ -22,6 +22,13 @@ namespace DnDIniativeTracker.Controllers
             _creatureInGameService.UpdateCreatureInGame(creatureInGameUpdateDto);
             return Ok();   
         }
+
+        [HttpGet("[action]/{id}/")]
+        public IActionResult Delete(int id)
+        {
+            _creatureInGameService.DeleteCreatureInGameById(id); 
+            return Ok();   
+        }
        
     }
 }
