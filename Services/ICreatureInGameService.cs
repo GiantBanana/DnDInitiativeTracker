@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DnDIniativeTracker.Dtos;
+using DnDIniativeTracker.KeylessModels;
 using DnDIniativeTracker.Models;
 
 namespace DnDIniativeTracker.Services

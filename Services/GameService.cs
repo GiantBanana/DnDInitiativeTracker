@@ -29,7 +29,15 @@ namespace DnDIniativeTracker.Services
             var creatureModel = _creatureService.GetCreatureById(addCreature.CreatureId);
             for(var i = 0; i < addCreature.Number; i++)
             {
-                game.CreaturesInGame.Add(new CreatureInGame(creatureModel,game.Id,$"{creatureModel.Name} - {i}"));
+                if(creatureModel.Role == Creature.Roles.Player || creatureModel.Role == Creature.Roles.NPC)
+                {
+                    game.CreaturesInGame.Add(new CreatureInGame(creatureModel,game.Id,creatureModel.Name));
+                }
+                else
+                {
+                    game.CreaturesInGame.Add(new CreatureInGame(creatureModel,game.Id,$"{creatureModel.Name} - {i}"));
+                }
+                
             }
             UpdateGame(game);
         }

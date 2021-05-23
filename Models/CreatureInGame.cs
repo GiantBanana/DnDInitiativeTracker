@@ -22,6 +22,14 @@ namespace DnDIniativeTracker.Models
             TempName = tempName;
         }
 
+        public CreatureInGame(Creature creature, int gameId)
+        {
+            CreatureId = creature.Id;
+            Initiative = creature.Initiative;
+            HP = creature.HP;
+            GameId = gameId;
+        }
+
         public CreatureInGame()
         {
         }
