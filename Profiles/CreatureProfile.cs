@@ -10,6 +10,8 @@ namespace DeskSimAPI.Profiles
         {
             CreateMap<Creature,CreatureCreateDto>();
             CreateMap<CreatureCreateDto,Creature>();
+            CreateMap<Creature,CreatureUpdateDto>();
+            CreateMap<CreatureUpdateDto,Creature>();
         }
         
     }

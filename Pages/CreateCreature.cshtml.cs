@@ -5,11 +5,11 @@ using DnDIniativeTracker.Dtos;
 
 namespace DnDIniativeTracker.Pages
 {
-    public class CreateCreature : PageModel
+    public class CreateCreaturePage : PageModel
     {
         private readonly ICreatureService _creatureService;
 
-        public CreateCreature(ICreatureService creatureService)
+        public CreateCreaturePage(ICreatureService creatureService)
         {
             _creatureService = creatureService;
         }

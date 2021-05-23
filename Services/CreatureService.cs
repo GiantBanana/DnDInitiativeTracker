@@ -24,6 +24,13 @@ namespace DnDIniativeTracker.Services
             _creatureRepository.SaveChanges();
         }
 
+        public void DeleteCreature(int id)
+        {
+            var creatureModel = _creatureRepository.GetCreatureById(id);
+            _creatureRepository.DeleteCreature(creatureModel);
+            _creatureRepository.SaveChanges();
+        }
+
         public Creature GetCreatureById(int id)
         {
             return _creatureRepository.GetCreatureById(id);
@@ -44,8 +51,21 @@ namespace DnDIniativeTracker.Services
             return _creatureRepository.GetCreaturesByRole(role);
         }
 
+        public CreatureUpdateDto MapCreatureToCreatureUpdateDto(Creature creatureModel)
+        {
+            return _mappper.Map<CreatureUpdateDto>(creatureModel);
+        }
+
         public void UpdateCreature(Creature creatureModel)
         {
+            _creatureRepository.UpdateCreature(creatureModel);
+            _creatureRepository.SaveChanges();
+        }
+
+        public void UpdateCreature(CreatureUpdateDto creatureUpdateDto)
+        {
+            var creatureModel = _creatureRepository.GetCreatureById(creatureUpdateDto.Id);
+            _mappper.Map(creatureUpdateDto,creatureModel);
             _creatureRepository.UpdateCreature(creatureModel);
             _creatureRepository.SaveChanges();
         }

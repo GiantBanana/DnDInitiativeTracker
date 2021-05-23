@@ -1,0 +1,64 @@
+@page
+@model DnDIniativeTracker.Pages.CreaturePage
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Creatures";
+    ViewData["wide"] = false;
+}
+<table class="table table-dark" id="creaturesTable">
+    <thead>
+        <tr>
+            <th colspan="8" style="text-align: center;"><h1>Creatures</h1></th>
+        </tr>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Initiative</th>
+            <th scope="col">HP</th>
+            <th scope="col">AC</th>
+            <th scope="col">Role</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var creature in Model.Creatures)
+        {
+            <tr>
+            <th scope="row">@creature.Id</th>
+            <td>@creature.Name</td>
+            <td>@creature.Initiative</td>
+            <td>@creature.HP</td>
+            <td>@creature.AC</td>
+            <td>@creature.Role.ToString()</td>
+            <td>                    
+                <a asp-page="/EditCreature" asp-route-id="@creature.Id" class="btn btn-primary" target="_blank">Edit</a>
+            </td>
+            <td>                    
+                <a onclick="deleteRow(this,@creature.Id);" class="btn btn-danger" target="_blank">Delete</a>
+            </td>
+            </tr>
+        }
+        
+    </tbody>
+</table>
+<script>
+    const deleteRow = async function(element, creatureId){
+        const row = element.parentNode.parentNode;
+        try {
+                const response = await fetch("/Api/Creatures/Delete/"+creatureId, {
+                method: 'GET',
+                })
+                .then(response => {
+                    if(response.ok){
+                        console.log(response);
+                        document.getElementById("creaturesTable").deleteRow(row.rowIndex);
+                    }                    
+                });
+            } catch (error) {
+                console.log(error)
+            }
+            return false;
+    }
+</script>

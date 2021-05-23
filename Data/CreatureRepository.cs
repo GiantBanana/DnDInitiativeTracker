@@ -24,6 +24,11 @@ namespace DnDIniativeTracker.Data
             _context.Creatures.Add(creatureModel);
         }
 
+        public void DeleteCreature(Creature creatureModel)
+        {
+            _context.Remove(creatureModel);
+        }
+
         public Creature GetCreatureById(int id)
         {
             return _context.Creatures.Where(c => c.Id == id).FirstOrDefault();

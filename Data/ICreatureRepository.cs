@@ -7,6 +7,7 @@ namespace DnDIniativeTracker.Data
     {
         void CreateCreature(Creature creatureModel);
         void UpdateCreature(Creature creatureModel);
+        void DeleteCreature(Creature creatureModel);
         bool SaveChanges();
         Creature GetCreatureByName(string name);
         Creature GetCreatureById(int id);

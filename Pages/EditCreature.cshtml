@@ -1,0 +1,40 @@
+@page
+@using DnDIniativeTracker.Models
+@model DnDIniativeTracker.Pages.EditCreaturePage
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Edit creature";
+    ViewData["wide"] = false;
+}
+<h1>Create creature</h1>
+@await Html.PartialAsync("~/Shared/_Success.cshtml")
+<form action="" method="POST">
+    <input asp-for="CreatureUpdateDto.Id" value="@Model.CreatureUpdateDto.Id" hidden/>
+    <div class="mb-3">
+        <label asp-for="CreatureUpdateDto.Name" class="form-label">Name:</label>
+        <input asp-for="CreatureUpdateDto.Name" class="form-control" value="@Model.CreatureUpdateDto.Name" />
+        <span asp-validation-for="CreatureUpdateDto.Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CreatureUpdateDto.HP" class="form-label">HP:</label>
+        <input asp-for="CreatureUpdateDto.HP" class="form-control" value="@Model.CreatureUpdateDto.HP" />
+        <span asp-validation-for="CreatureUpdateDto.HP" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CreatureUpdateDto.Initiative" class="form-label">Initiative:</label>
+        <input asp-for="CreatureUpdateDto.Initiative" class="form-control" value="@Model.CreatureUpdateDto.Initiative" />
+        <span asp-validation-for="CreatureUpdateDto.Initiative" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CreatureUpdateDto.AC" class="form-label">AC:</label>
+        <input asp-for="CreatureUpdateDto.AC" class="form-control" value="@Model.CreatureUpdateDto.AC" />
+        <span asp-validation-for="CreatureUpdateDto.AC" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CreatureUpdateDto.Role" class="form-label">Role:</label>
+        <select asp-for="CreatureUpdateDto.Role" asp-items="Html.GetEnumSelectList<Creature.Roles>()" class="form-select form-control">
+        </select>
+    </div>
+    <input type="submit" value="Edit creature" class="btn btn-success btn-lg"/>
+</form>
