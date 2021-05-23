@@ -3,14 +3,16 @@ using DnDIniativeTracker.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DnDIniativeTracker.Migrations
 {
     [DbContext(typeof(DnDContext))]
-    partial class DnDContextModelSnapshot : ModelSnapshot
+    [Migration("20210523103117_creature_remove_dex_bonus")]
+    partial class creature_remove_dex_bonus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

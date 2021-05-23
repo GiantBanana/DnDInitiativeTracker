@@ -27,10 +27,6 @@
         <input asp-for="CreatureCreateDto.AC" class="form-control" />
     </div>
     <div class="mb-3">
-        <label asp-for="CreatureCreateDto.DexBonus" class="form-label">DexBonus:</label>
-        <input asp-for="CreatureCreateDto.DexBonus" class="form-control" />
-    </div>
-    <div class="mb-3">
         <label asp-for="CreatureCreateDto.Role" class="form-label">Role:</label>
         <select asp-for="CreatureCreateDto.Role" asp-items="Html.GetEnumSelectList<Creature.Roles>()" class="form-select form-control">
         </select>

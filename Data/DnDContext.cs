@@ -29,6 +29,12 @@ namespace DnDIniativeTracker.Data
                             .WithMany(c => c.CreaturesInGame)
                             .HasForeignKey(c => c.GameId)
                             .OnDelete(DeleteBehavior.ClientCascade);
+            modelBuilder.Entity<Creature>()
+                            .HasIndex(c => c.Name)
+                            .IsUnique();
+            modelBuilder.Entity<Game>()
+                            .HasIndex(c => c.Name)
+                            .IsUnique();
         }
     }
 }

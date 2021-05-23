@@ -9,6 +9,5 @@ namespace DnDIniativeTracker.Dtos
         public int HP { get; set; }
         public int AC { get; set; }
         public Roles Role { get; set; }  
-        public int DexBonus { get; set; }
     }
 }

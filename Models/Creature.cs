@@ -12,7 +12,6 @@ namespace DnDIniativeTracker.Models
         public int HP { get; set; }
         public int AC { get; set; }
         public Roles Role { get; set; }  
-        public int DexBonus { get; set; }
 
         public IList<CreatureInGame> CreatureInGames { get; set; } 
     }
